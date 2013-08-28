@@ -16,6 +16,8 @@ describe User do
 	it { should respond_to(:remember_token) }
 	it { should respond_to(:authenticate) }
 	it { should respond_to(:admin) }
+	it { should respond_to(:microposts) }
+	it { should respond_to(:feed) }
 	it { should be_valid }
 	it { should_not be_admin }
 	describe "with admin attribute set to 'true'" do
@@ -25,48 +27,6 @@ describe User do
 		end
 
 		it { should be_admin }
-	end
-	describe "profile page" do
-		let(:user) { FactoryGirl.create(:user) }
-		before { visit user_path(user) }
-
-		it { should have_content(user.name) }
-		it { should have_title(user.name) }
-	end
-
-	describe "signup" do
-
-		before { visit signup_path }
-
-		let(:submit) { "Create my account" }
-
-		describe "with invalid information" do
-			it "should not create a user" do
-				expect { click_button submit }.not_to change(User, :count)
-			end
-		end
-
-		describe "with valid information" do
-			before do
-				fill_in "Name",         with: "Example User"
-				fill_in "Email",        with: "user@example.com"
-				fill_in "Password",     with: "foobar"
-				fill_in "Confirmation", with: "foobar"
-			end
-
-			it "should create a user" do
-				expect { click_button submit }.to change(User, :count).by(1)
-			end
-
-			describe "after saving the user" do
-				before { click_button submit }
-				let(:user) { User.find_by(email: 'user@example.com') }
-
-				it { should have_link('Sign out') }
-				it { should have_title(user.name) }
-				it { should have_selector('div.alert.alert-success', text: 'Welcome') }
-			end
-		end
 	end
 
 
@@ -156,5 +116,38 @@ describe User do
 	describe "remember token" do
 		before { @user.save }
 		its(:remember_token) { should_not be_blank }
+	end
+
+	describe "micropost associations" do
+
+		before { @user.save }
+		let!(:older_micropost) do
+			FactoryGirl.create(:micropost, user: @user, created_at: 1.day.ago)
+		end
+		let!(:newer_micropost) do
+			FactoryGirl.create(:micropost, user: @user, created_at: 1.hour.ago)
+		end
+
+		it "should have the right microposts in the right order" do
+			expect(@user.microposts.to_a).to eq [newer_micropost, older_micropost]
+		end
+
+		it "should destroy associated microposts" do
+			microposts = @user.microposts.to_a
+			@user.destroy
+			expect(microposts).not_to be_empty
+			microposts.each do |micropost|
+				expect(Micropost.where(id: micropost.id)).to be_empty
+			end
+		end
+		describe "status" do
+			let(:unfollowed_post) do
+				FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
+			end
+
+			its(:feed) { should include(newer_micropost) }
+			its(:feed) { should include(older_micropost) }
+			its(:feed) { should_not include(unfollowed_post) }
+		end
 	end
 end

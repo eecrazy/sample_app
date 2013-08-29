@@ -79,5 +79,6 @@ SampleApp::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
   
   config.force_ssl = true
+  #这行代码是必须的，否则提交到heroku上无法正确加载css文件
   config.serve_static_assets = true
 end

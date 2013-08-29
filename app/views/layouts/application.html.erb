@@ -1,24 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><%= full_title(yield(:title)) %></title>
-	<%= stylesheet_link_tag "application", media: "all",
+  <title><%= full_title(yield(:title)) %></title>
+  <%= stylesheet_link_tag "application", media: "all",
                                            "data-turbolinks-track" =>
-	true %>
-	<%= javascript_include_tag "application", "data-turbolinks-track" =>
-	true %>
-	<%= csrf_meta_tags %>
-	<%= render 'layouts/shim' %>
-</head>
+  true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" =>
+  true %>
+  <link data-turbolinks-track="true" href="/assets/application.css?body=1" media="all" rel="stylesheet" />
+  <link data-turbolinks-track="true" href="/assets/custom.css?body=1" media="all" rel="stylesheet" />
+  <link data-turbolinks-track="true" href="/assets/sessions.css?body=1" media="all" rel="stylesheet" />
+  <link data-turbolinks-track="true" href="/assets/static_pages.css?body=1" media="all" rel="stylesheet" />
+  <link data-turbolinks-track="true" href="/assets/users.css?body=1" media="all" rel="stylesheet" />
+  <script data-turbolinks-track="true" src="/assets/jquery.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/jquery_ujs.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-transition.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-affix.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-alert.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-button.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-carousel.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-collapse.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-dropdown.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-modal.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-scrollspy.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-tab.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-tooltip.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-popover.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap-typeahead.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/bootstrap.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/turbolinks.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/sessions.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/static_pages.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/users.js?body=1"></script>
+  <script data-turbolinks-track="true" src="/assets/application.js?body=1"></script>
+  <%= csrf_meta_tags %>
+  <%= render 'layouts/shim' %></head>
 <body>
-	<%= render 'layouts/header' %>
-    <div class="container">
-      <% flash.each do |key, value| %>
-        <div class="alert alert-<%= key %>"><%= value %></div>
-      <% end %>
-      <%= yield %>
-      <%= render 'layouts/footer' %>
-      <%= debug(params) if Rails.env.development? %>
-    </div>
+  <%= render 'layouts/header' %>
+  <div class="container">
+    <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %>
+      ">
+      <%= value %></div>
+    <% end %>
+    <%= yield %>
+    <%= render 'layouts/footer' %>
+    <%= debug(params) if Rails.env.development? %></div>
 </body>
 </html>

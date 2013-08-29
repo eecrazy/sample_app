@@ -79,4 +79,5 @@ SampleApp::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
   
   config.force_ssl = true
+  config.serve_static_assets = true
 end
